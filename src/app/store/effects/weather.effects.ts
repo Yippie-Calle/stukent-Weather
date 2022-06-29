@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
+//import actions and effects
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, of, switchMap } from 'rxjs';
+//import our actions
+import * as weatherActions from '../actions/weather.action';
+import { Action } from '@ngrx/store';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
+import { WeatherService } from '../weather.service';
+//import the service
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class WeatherEffects {
@@ -16,12 +24,12 @@ export class WeatherEffects {
       return this.weatherService.getWeatherData(action.payload).pipe(
         //map result
         map((data) => ({
-          type: WeatherActions.FETCH_WEATHER_SUCCESS,
+          type: weatherActions.FETCH_WEATHER_SUCCESS,
           payload: data,
         })),
         catchError((err) => {
           //call the action if there is an error
-          return of(new WeatherActions.FETCH_WEATHER_FAIL(err['message']));
+          return of(new weatherActions.FetchWeatherFail(err['message']));
         })
       );
     })

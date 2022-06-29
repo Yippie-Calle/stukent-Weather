@@ -6,6 +6,7 @@ import {
 
 //import weather reducer
 import * as weatherReducer from './weather.reducer';
+
 //register the reducer functions
 export interface state {
   weather: weatherReducer.WeatherState;
@@ -14,9 +15,13 @@ export interface state {
 export const reducers: ActionReducerMap<state> = {
   weather: weatherReducer.reducer,
 };
+
 //get full state
-//export const getweatherState = (state:weatherReducer.weatherState) => state
+//select the part of the state that you need
+//using the createFeatureSelector and adding the name of the state slice
 export const selectWeatherState = createFeatureSelector('weather');
+
+//get the state slices as needed
 
 export const getWeatherData = createSelector(
   selectWeatherState,
